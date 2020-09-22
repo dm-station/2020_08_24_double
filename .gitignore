@@ -1,0 +1,27 @@
+.DS_Store
+
+# 忽略node文件
+node_modules/
+
+# 忽略html项目打包文件
+dist/
+
+# 忽略视频文件
+video/
+
+# 忽略laya打包、类库、图集文件
+bin/js/
+bin/libs/
+bin/res/
+release/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

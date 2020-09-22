@@ -1,0 +1,159 @@
+
+/* 去除默认样式 */
+*{margin:0;padding:0;-webkit-overflow-scrolling: touch;-webkit-tap-highlight-color:transparent;}
+html,body,div,img,p,a,h1,h2,h3,tr,td,ul,li,dl,dd,dt,table,th,tr,td,span,input,textarea,form{margin:0;padding:0;}
+body{ font: 62.5%/1.5 'microsoft yahei', sans-serif;background-color:#090f4b;}
+html,body{height: 100%;}
+a{text-decoration: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+ul{list-style:none;}
+img{border:0;width: 100%; height: auto;display: block;}
+.clearfix:before,.clearfix:after{display:block;content:"";height: 0;clear: both;visibility:hidden;}
+input,select{outline: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webkit-appearance: none; -moz-appearance: none;appearance: none;}
+.boxsize{box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}
+
+
+/* 自定义公共样式 */
+.clearfix{zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+.abs {position: absolute;top: 0;}
+.none{display: none;}
+.height{height: 100%;}
+#main{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#main>div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* 页面样式 */
+#login,#p3{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.coupon_x{
+    width: 0.85rem;
+    height: 0.48rem;
+    top: 7rem;
+    left: 5.88rem;
+}
+.coupon_btn{
+    width: 0.78rem;
+    height: 3.35rem;
+    top: 5.6rem;
+    left: 1rem;
+}
+
+/* app */
+.ce_photo{
+    width: 3rem;
+    height: 4.5rem;
+    top: 5.1rem;
+    left: 3rem;
+}
+.progress{
+    font-size: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    top: 7.1rem;
+    left: 1.9rem;
+    text-align: center;
+    /* color: white; */
+    background: linear-gradient(to right, #c4ae71, #8a6939);
+    -webkit-background-clip: text;
+    color: transparent;
+    transform: rotate(90deg);
+    font-weight: bold;
+}
+.scroll{
+    width: 6.55rem;
+    height: 0.8rem;
+    /* top: 6.86rem; */
+    left: 0.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.scrolls{
+    width: 5.8rem;
+    height: 0.8rem;
+    /* top: 5.66rem; */
+    left: 0.9rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.more{
+    position: absolute;
+    top: 3.24rem;
+    left: 1.14rem;
+    font-size: 0.4rem;
+    width: 0.79rem;
+    height: 3.37rem;
+}
+.getCoupon{
+    position: absolute;
+    left: 1.14rem;
+    top: 7.86rem;
+    font-size: 0.4rem;
+    width: 0.79rem;
+    height: 3.37rem;
+}
+.swiper_btn{
+    width: 1rem;
+    height: 3.37rem;
+    top: 5.6rem;
+    left: 1.06rem;
+    z-index: 3;
+}
+.swiper1{
+    /* width: 100%; */
+}
+.swiperBox{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.swiper_left{
+    width: 1.01rem;
+    height: 0.83rem;
+    position: absolute;
+    top: 0.3rem;
+    left: 3.95rem;
+    z-index: 3;
+}
+.swiper_right{
+    width: 1.01rem;
+    height: 0.83rem;
+    position: absolute;
+    bottom: 0.3rem;
+    left: 3.95rem;
+    z-index: 3;
+}
+.back{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 0.65rem;
+    left: 6.03rem;
+    z-index: 3;
+}
+
+#game{
+    height: 7.5rem;
+    /* width: 15rem; */
+    font-size: 16px;
+    overflow: hidden;
+    transform: rotate(90deg);
+    transform-origin: 3.75rem 3.75rem;
+}

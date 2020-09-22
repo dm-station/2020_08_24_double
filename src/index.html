@@ -1,0 +1,94 @@
+<html style="font-size: 62.5px;">
+
+<head lang="en">
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>特仑苏</title>
+    <script>
+        setFontSize()
+        window.onresize = function () { setFontSize() }
+        function setFontSize () { document.getElementsByTagName('html')[0].style.fontSize = parseInt(document.documentElement.clientWidth) / 7.5 + 'px' }
+    </script>
+
+    <link href="./css/reset.css" type="text/css" rel="stylesheet">
+    <link href="./css/swiper-bundle.min.css" type="text/css" rel="stylesheet">
+    <script>/* eslint-disable */ +function(window, document, link) { var _dmp = window['BHDmp'] =
+        function () { _dmp.track ? _dmp.track.apply(_dmp, arguments) :_dmp.queue.push(arguments); }; _dmp.queue = []; 
+        var dom =document.createElement('script'); dom.async = true; dom.src = link; 
+        var ele =document.getElementsByTagName('script')[0];
+        ele.parentNode.insertBefore(dom, ele); }
+        (window, document, '//v.behe.com/bhdmp.js'); BHDmp('option', { domain: '//digital.mengniu.com.cn' });
+        BHDmp('init', 182, '^^site_key^^',54);
+</script>
+</head>
+
+<body>
+    <div id="main">
+
+        <div id="login" class="none" style="height: auto;">
+            <img class="load" src="">
+            <!-- <img class="" src="./img/loading.jpg"> -->
+            <!-- <img class="abs" src="./img/loading1448px.jpg"> -->
+            <!-- <img class="abs ce_photo none" src=""> -->
+            <p class="progress abs">0%</p>
+        </div>
+
+        <div id="p1" class="none">
+            <img class="scroll_bg height" src="">
+            <!-- <img class="abs" src="./img/点击开启1448px.jpg"> -->
+            <img class="abs scroll" src="">
+        </div>
+
+        <div id="p2" class="page none">
+            <canvas id="game" style="width: 100%;height: 100%;"></canvas>
+        </div>
+
+        <div id="p3" class="page none">
+            <img class="height p3bg none" src="">
+            <!-- <img class="height  " src="./img/过度页1448px.jpg"> -->
+            
+            <img class="abs more" src="./img/big/p3_btn1.png">
+            <img class="abs getCoupon" src="./img/big/p3_btn2.png">
+        </div>
+
+        <div id="p4" class="page none">
+            <img class="height p4bg abs" src="./img/big/swiper_bg.jpg">
+            <!-- <img class="height abs" src="./img/其他故事1448px.jpg"> -->
+            <img class="abs back" src="./img/big/back.png">
+            <img class="abs swiper_btn" src="./img/big/swiper_btn.png">
+            <img class="swiper_left" src="./img/big/left.png">
+            <img class="swiper_right" src="./img/big/right.png">
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <img class='swiper-slide ' src=''>
+                    <img class='swiper-slide ' src=''>
+                    <img class='swiper-slide ' src=''>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <div id="p1" class="none">
+            <img src="./img/coupon/coupon.jpg">
+            <img class="abs coupon_x" src="./img/coupon/coupon_x.png">
+            <img class="abs coupon_btn" src="./img/coupon/coupon_btn.png">
+        </div> -->
+
+    </div>
+
+    <div id="tips"></div>
+
+    <script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="./js/jsmpeg.min.js"></script>
+    <script type="text/javascript" src="./js/swiper-bundle.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
+</body>
+
+</html>
