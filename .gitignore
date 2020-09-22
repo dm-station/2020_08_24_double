@@ -7,7 +7,8 @@ node_modules/
 dist/
 
 # 忽略视频文件
-video/
+video/*.ts
+*.mp4
 
 # 忽略laya打包、类库、图集文件
 bin/js/
