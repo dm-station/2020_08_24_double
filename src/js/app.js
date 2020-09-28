@@ -36,6 +36,21 @@ function getRequestParams (strname) {
   return theRequest[strname]
 }
 
+// 禁止页面滚动
+document.body.addEventListener('touchmove', function (e) {
+  e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
+}, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+
+// 重写alert
+window.alert = function (name) {
+  var iframe = document.createElement('IFRAME')
+  iframe.style.display = 'none'
+  iframe.setAttribute('src', 'data:text/plain,')
+  document.documentElement.appendChild(iframe)
+  window.frames[0].window.alert(name)
+  iframe.parentNode.removeChild(iframe)
+}
+
 function getStageHeight () {
   var s = document.body.clientWidth / 750
   //   var stageW = document.body.clientWidth / s
@@ -49,20 +64,42 @@ function getPos (h) {
   return y / 100 + 'rem'
 }
 
-var video = document.getElementById('video')
+var video
 document.addEventListener('WeixinJSBridgeReady', function () {
   WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+    console.log('WeixinJSBridge')
     // document.getElementById('video').play()
     // document.getElementById('video').pause()
     WeixinReady()
   })
 }, false)
 
+var vol
 function WeixinReady () {
-  if (video) {
-    video.audioOut.unlock()
-    video.audioOut.volume = 1
+  vol = setInterval(function () {
+    if (video) {
+      video.audioOut.unlock()
+      video.audioOut.volume = 1
+      clearInterval(vol)
+    }
+    console.log('vol')
+  }, 100)
+}
+
+// 获取暂停时间
+function getTime () {
+  var time
+  if (themes === 'ce') {
+    time = 104
+    // time = 10
+  } else if (themes === 'tw') {
+    time = 101
+    // time = 10
+  } else if (themes === 'yt') {
+    time = 92
+    // time = 9
   }
+  return time
 }
 
 var themes = getRequestParams('themes') || 'tw'
@@ -70,28 +107,13 @@ var channel = getRequestParams('channel') || ''
 
 $(function () {
   share()
-  // 禁止页面滚动
-  document.body.addEventListener('touchmove', function (e) {
-    e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
-  }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
-
-  // 重写alert
-  window.alert = function (name) {
-    var iframe = document.createElement('IFRAME')
-    iframe.style.display = 'none'
-    iframe.setAttribute('src', 'data:text/plain,')
-    document.documentElement.appendChild(iframe)
-    window.frames[0].window.alert(name)
-    iframe.parentNode.removeChild(iframe)
-  }
-
   landscape()
 
   // 为统一用户交互即muted（静音）自动播放，Android系统下未使用chromium M71版本的webview仍不支持autoplay策略（浏览器市场占比较大）。
   function toggleVolumn () {
     console.log('toggleVolumn')
     // 如果是依据autoplay policy而消音
-    if (!video.audioOut.unlocked) {
+    if (video && !video.audioOut.unlocked) {
       // 解除消音
       video.audioOut.unlock()
       // 避免一些隐患手动设置volume
@@ -109,14 +131,12 @@ $(function () {
   var type = ''
   var H = getStageHeight()
 
-  $('#game').css('height', '7.5rem')
-  $('#game').css('width', H / 100 + 'rem')
+  // $('#game').css('height', '7.5rem')
+  // $('#game').css('width', H / 100 + 'rem')
   if (H > 1300) {
     type = 'big'
   } else {
     type = 'small'
-    $('.more').css('top', '2rem')
-    $('.getCoupon').css('top', '6.6rem')
     $('.swiper_btn').css('top', getPos(337))
     $('.scroll').addClass('scrolls')
   }
@@ -129,6 +149,11 @@ $(function () {
   if (H < 1448) {
     // $('.height').removeClass('height')
   }
+
+  console.log('top', H / 2)
+
+  $('.more').css('top', (H / 2 - 337 - 60) / 100 + 'rem')
+  $('.getCoupon').css('top', (H / 2 + 60) / 100 + 'rem')
 
   for (var i = 0; i < 3; i++) {
     $('.swiper-wrapper img').eq(i).attr('src', './img/' + type + '/swiper' + (i + 1) + '.png')
@@ -148,57 +173,76 @@ $(function () {
       if (num >= 100) {
         num = 100
         clearInterval(tm)
+        $('#p2').removeClass('none')
         setTimeout(function () {
-          $('#login').remove()
-          $('#p1').removeClass('none')
-        }, 1000)
+          playVideo()
+        }, 800)
       }
       $('.progress').html(num + '%')
     }, 20)
   }
 
   // 视频部分
-  var video
   var url
   var canvas = document.getElementById('game')
+  var time// 获取当前视频暂停时间
+  var state = 'loading'// 视频当前播放的状态
 
   url = 'video/' + type + '_' + themes + '.ts'
-  url = 'video/ce.ts'
+  // url = 'video/ce.ts'
 
-  // 监听视频播放进度
+  time = getTime()
+  state = 'loading'
   var tms = setInterval(function () {
-    console.log('currentTime', video.currentTime)
-    if (video.currentTime > 0.1) {
-      clearInterval(tms)
-      video.pause()
+    if (state === 'end') return
+    console.log('currentTime', video.currentTime || 'null', time)
+    if (video.currentTime > 0.01 && state === 'loading') {
+      state = 'play'
+      // video.pause()
+    }
+    if (video.currentTime > time && state === 'play') {
+      state = 'end'
+      $('.jump').addClass('none')
+      $('.p3bg').addClass('none')
+      $('#p3').removeClass('none')
+      // clearInterval(tms)
     }
   }, 50)
 
   video = new JSMpeg.Player(url, {canvas: canvas,
     loop: false,
-    autoplay: true, // 是否立即开始播放
-    // chunkSize: 1024 * 1024,//一次加载的块大小（以字节为单位）。默认值1024*1024（1mb）
+    autoplay: false, // 是否立即开始播放
+    // chunkSize: 1024 * 1024,//使用时progressive，一次加载的块大小（以字节为单位）。默认值1024*1024（1mb）
+    progressive: true, // 是否以块的形式加载数据（仅静态文件）。启用后，可以在完全加载整个源之前开始播放。默认true
+    throttled: false, // 使用时progressive，是否在不需要播放时延迟加载块。默认true
     onEnded: videoEnd
   })
-  document.getElementById('main').removeEventListener('click', toggleVolumn)
+
+  document.getElementById('main').addEventListener('click', toggleVolumn)
 
   function videoEnd () {
-    video.currentTime = 0.1
-    // 销毁视频
-    video.destroy()
-    if (channel === 'close') {
-      $('.p3bg').removeClass('none')
-    } else {
-      $('.p3bg').addClass('none')
+    $('.jump').addClass('none')
+    if (video) {
+      state = 'end'
+      video.pause()
+      video.currentTime = 0.1
+      // 销毁视频
+      video.destroy()
+      video = null
     }
-    $('#p3').removeClass('none')
-    console.log('videoEnd')
+  }
+
+  function playVideo () {
+    video.play()
+    video.audioOut.volume = 1
+    $('#login').remove()
+    track('视频页播放')
   }
 
   var swiper = new Swiper('.swiper-container', {
     autoplay: false, // 可选选项，自动滑动
     direction: 'vertical',
-    loop: false,
+    loop: true,
     observer: true, // 修改swiper自己或子元素时，自动初始化swiper
     observeParents: true, // 修改swiper的父元素时，自动初始化swiper
     on: {
@@ -226,15 +270,15 @@ $(function () {
     mouse = 'YD'
   }
 
+  
+  $('.jump').on(mouseup, function () {
+    videoEnd ()
+    $('#p3,.p3bg').removeClass('none')
+  })
+
   // 点击卷轴
   $('.scroll').on(mouseup, function () {
     video.play()
-    if (!video.audioOut.unlocked) {
-      // 解除消音
-      video.audioOut.unlock()
-      // 避免一些隐患手动设置volume
-      video.audioOut.volume = 1
-    }
     $('#p1').addClass('none')
     $('#p2').removeClass('none')
     track('点击亲启')
@@ -255,9 +299,13 @@ $(function () {
     // window.location.href = 'coupon.html?themes=' + themes + '&channel=close'
   })
 
+  var isPlay=true
   // 即刻观看
   $('.swiper_btn').on(mouseup, function () {
+    if(!isPlay)return
+    // isPlay=false
     var k=$('.swiper-slide-active').attr('data-swiper-slide-index')*1
+    // var k=swiper.activeIndex
     if (k === 0) {
       themes = 'ce'
     } else if (k === 1) {
@@ -266,21 +314,31 @@ $(function () {
       themes = 'yt'
     }
     console.log(swiper.activeIndex,themes,swiper.realIndex, $('.swiper-slide-active').attr('data-swiper-slide-index'))
-    
+
     track('即刻观赏')
     // 销毁视频
-    if (video) video = null
+    videoEnd ()
     url = 'video/' + type + '_' + themes + '.ts'
-    url = 'video/video.ts'
-    $('#p4,#p3').addClass('none')
     $('#p2').removeClass('none')
     channel = ''
+    time = getTime()
+    state = 'play'
     video = new JSMpeg.Player(url, {canvas: canvas,
       loop: false,
       autoplay: true, // 是否立即开始播放
-      // chunkSize: 1024 * 1024,//一次加载的块大小（以字节为单位）。默认值1024*1024（1mb）
+      throttled: false, // 使用时progressive，是否在不需要播放时延迟加载块。默认true
       onEnded: videoEnd
     })
+    // 解除消音
+    video.audioOut.unlock()
+    // 避免一些隐患手动设置volume
+    video.audioOut.volume = 1
+    $('.jump').removeClass('none')
+    setTimeout(function(){
+      isPlay=true
+      $('.p3bg').attr('src', './img/' + type + '/p3_' + themes + '.jpg').addClass('none')
+      $('#p4,#p3').addClass('none')
+    },600)
   })
 
   // 左按钮
@@ -366,8 +424,8 @@ function share () {
 function uploadData () {
   var _title = '千年明月事，更好共此时' // 分享标题
   var _desc = '常论月宫谁人在，不知嫦娥因何奔月去？' // 分享的描述
-  var _link = window.location.href // 分享的连接
-  var _imgUrl = 'https://telunsu2020guli.mengniu.com.cn/wxshare_demo/index.jpg' // 分享的图片
+  var _link = 'https://telunsu202001.mengniu.com.cn/?themes='+themes // 分享的连接
+  var _imgUrl = _imgUrl = 'https://telunsu202001.mengniu.com.cn/img/share/' + themes + '.jpg'
 
   console.log('share', themes)
 
@@ -378,7 +436,6 @@ function uploadData () {
   } else if (themes === 'yt') {
     _desc = '动物种类颇多，广寒宫中何以只见玉兔？'
   }
-  _imgUrl = 'http://campaign.realh5.cn/2020/tls_double/share/' + themes + '.jpg'
   wx.updateAppMessageShareData({
     title: _title,
     desc: _desc,

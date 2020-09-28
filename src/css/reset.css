@@ -38,6 +38,9 @@ input,select{outline: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webki
     top: 50%;
     transform: translateY(-50%);
 }
+#login{
+    z-index: 3;
+}
 .coupon_x{
     width: 0.85rem;
     height: 0.48rem;
@@ -154,6 +157,13 @@ input,select{outline: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);-webki
     /* width: 15rem; */
     font-size: 16px;
     overflow: hidden;
-    transform: rotate(90deg);
-    transform-origin: 3.75rem 3.75rem;
+    /* transform: rotate(90deg); */
+    /* transform-origin: 3.75rem 3.75rem; */
+}
+.jump{
+    width: 0.8rem;
+    height: 1rem;
+    position: absolute;
+    bottom: 0.66rem;
+    right: 0.74rem;
 }

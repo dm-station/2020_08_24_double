@@ -17,14 +17,16 @@
 
     <link href="./css/reset.css" type="text/css" rel="stylesheet">
     <link href="./css/swiper-bundle.min.css" type="text/css" rel="stylesheet">
-    <script>/* eslint-disable */ +function(window, document, link) { var _dmp = window['BHDmp'] =
-        function () { _dmp.track ? _dmp.track.apply(_dmp, arguments) :_dmp.queue.push(arguments); }; _dmp.queue = []; 
-        var dom =document.createElement('script'); dom.async = true; dom.src = link; 
-        var ele =document.getElementsByTagName('script')[0];
-        ele.parentNode.insertBefore(dom, ele); }
-        (window, document, '//v.behe.com/bhdmp.js'); BHDmp('option', { domain: '//digital.mengniu.com.cn' });
-        BHDmp('init', 182, '^^site_key^^',54);
+<script>/* eslint-disable */+(function (window, document, link) {var _dmp = window['BHDmp'] =
+function () { _dmp.track ? _dmp.track.apply(_dmp, arguments) : _dmp.queue.push(arguments) }; _dmp.queue = []
+  var dom = document.createElement('script'); dom.async = true; dom.src = link
+  var ele = document.getElementsByTagName('script')[0]
+  ele.parentNode.insertBefore(dom, ele)
+}(window, document, '//v.behe.com/bhdmp.js')); BHDmp('option', { domain: '//digital.mengniu.com.cn' })
+BHDmp('init', 182, '^^site_key^^', 54)
 </script>
+
+<!-- <script src="//cdn.campaign.realh5.cn/2018/meizu/vconsole.min.js"></script> -->
 </head>
 
 <body>
@@ -46,6 +48,7 @@
 
         <div id="p2" class="page none">
             <canvas id="game" style="width: 100%;height: 100%;"></canvas>
+            <img class="jump" src="./img/jump.png">
         </div>
 
         <div id="p3" class="page none">
@@ -64,11 +67,11 @@
             <img class="swiper_left" src="./img/big/left.png">
             <img class="swiper_right" src="./img/big/right.png">
 
-            <div class="swiper-container">
+            <div class="swiper-container" style="transform:translate3d(0,0,0);overflow:hidden;">
                 <div class="swiper-wrapper">
-                    <img class='swiper-slide ' src=''>
-                    <img class='swiper-slide ' src=''>
-                    <img class='swiper-slide ' src=''>
+                    <img style="transform:translate3d(0,0,0)" class='swiper-slide ' src=''>
+                    <img style="transform:translate3d(0,0,0)" class='swiper-slide ' src=''>
+                    <img style="transform:translate3d(0,0,0)" class='swiper-slide ' src=''>
                 </div>
             </div>
 
